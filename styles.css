@@ -1,0 +1,486 @@
+/* Общие настройки */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #fff;
+  background-color: #121212;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Фоновый эффект */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Густой туман */
+.fog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.9));
+  filter: blur(80px); /* Усиленное размытие */
+  z-index: 1;
+}
+
+/* Дополнительные слои тумана */
+.fog-layer-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2));
+  filter: blur(40px);
+  z-index: 1;
+  animation: fog-move-1 10s infinite;
+}
+
+@keyframes fog-move-1 {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+.fog-layer-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2));
+  filter: blur(60px);
+  z-index: 1;
+  animation: fog-move-2 15s infinite;
+}
+
+@keyframes fog-move-2 {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(20px); }
+  100% { transform: translateY(0); }
+}
+
+/* Свет фонаря (скрытый) */
+.lantern-light {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  z-index: 2;
+  animation: flicker 2s infinite;
+  visibility: hidden; /* Скрываем элемент */
+}
+
+@keyframes flicker {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.6; }
+  100% { opacity: 0.8; }
+}
+
+/* Луч света (скрытый) */
+.lantern-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 800px;
+  height: 200px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  z-index: 3;
+  filter: blur(10px);
+  animation: beam-move 10s infinite;
+  visibility: hidden; /* Скрываем элемент */
+}
+
+@keyframes beam-move {
+  0% { transform: translate(-50%, -50%) rotate(45deg); }
+  50% { transform: translate(-50%, -50%) rotate(60deg); }
+  100% { transform: translate(-50%, -50%) rotate(45deg); }
+}
+/* Главная страница */
+.hero {
+  position: relative;
+  background: url('background.jpg') no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.content {
+  z-index: 1;
+  text-align: center;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+/* Прозрачный текст */
+.reveal-text {
+  position: relative;
+  font-size: 3rem;
+  color: transparent; /* Делаем основной текст полностью прозрачным */
+  text-shadow: none; /* Убираем лишние тени */
+  transform: translateZ(-50px);
+  animation: text-reveal 5s forwards;
+}
+
+/* Тень текста (чёткая и яркая) */
+.reveal-text::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: inherit;
+  color: transparent; /* Текст остаётся прозрачным */
+  text-shadow: 
+      0 0 3px rgba(255, 255, 255, 1), /* Очень чёткий свет */
+      0 0 6px rgba(255, 255, 255, 0.9), /* Блики */
+      0 0 10px rgba(255, 255, 255, 0.8), /* Среднее размытие */
+      0 0 15px rgba(255, 255, 255, 0.7), /* Рассеянный свет */
+      0 0 20px rgba(255, 255, 255, 0.6); /* Дальний свет */
+  z-index: 4;
+  animation: shadow-reveal 5s forwards;
+}
+
+@keyframes shadow-reveal {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes text-reveal {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+/* Анимация для каждого слова */
+.reveal-text span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: word-reveal 3s ease-out forwards;
+}
+
+.reveal-text span:nth-child(odd) {
+  animation-delay: 0.5s;
+}
+
+.reveal-text span:nth-child(even) {
+  animation-delay: 1s;
+}
+
+@keyframes word-reveal {
+  0% { opacity: 0; transform: translateY(50px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Эффект частиц */
+.particle-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle-effect::before,
+.particle-effect::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: particle-float 5s infinite;
+}
+
+.particle-effect::before {
+  top: 10%;
+  left: 20%;
+  animation-delay: -2s;
+}
+
+.particle-effect::after {
+  top: 60%;
+  right: 40%;
+  animation-delay: -3s;
+}
+
+@keyframes particle-float {
+  0% { transform: translateY(0) scale(1); opacity: 0.5; }
+  50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 0.5; }
+}
+
+/* Секция "Контакты" */
+#contact {
+  padding: 50px 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.8); /* Полупрозрачный фон */
+  backdrop-filter: blur(10px); /* Размытие фона */
+}
+
+#contact h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #fff; /* Белый текст */
+}
+
+#contact p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #ccc; /* Серый текст */
+}
+
+/* Номер телефона */
+.phone-number {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.phone-number a {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #ff6f61; /* Яркий акцентный цвет */
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  transition: background 0.3s ease;
+}
+
+.phone-number a:hover {
+  background: #e65c50; /* Мягкий переход при наведении */
+}
+
+/* Дополнительные частицы */
+.particle-effect-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle-effect-2::before,
+.particle-effect-2::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: particle-float-2 7s infinite;
+}
+
+.particle-effect-2::before {
+  top: 30%;
+  left: 50%;
+  animation-delay: -4s;
+}
+
+.particle-effect-2::after {
+  top: 80%;
+  right: 10%;
+  animation-delay: -5s;
+}
+
+@keyframes particle-float-2 {
+  0% { transform: translateY(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-30px) scale(1.5); opacity: 0.8; }
+  100% { transform: translateY(0) scale(1); opacity: 0.3; }
+}
+
+/* Звёзды */
+.star-field {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.star-field::before,
+.star-field::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: star-twinkle 5s infinite;
+}
+
+.star-field::before {
+  top: 10%;
+  left: 30%;
+  animation-delay: -2s;
+}
+
+.star-field::after {
+  top: 70%;
+  right: 20%;
+  animation-delay: -3s;
+}
+
+@keyframes star-twinkle {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* Дополнительные звёзды */
+.star-field-2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.star-field-2::before,
+.star-field-2::after {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: star-twinkle-2 7s infinite;
+}
+
+.star-field-2::before {
+  top: 40%;
+  left: 60%;
+  animation-delay: -4s;
+}
+
+.star-field-2::after {
+  top: 90%;
+  right: 50%;
+  animation-delay: -5s;
+}
+
+@keyframes star-twinkle-2 {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.3; }
+}
+
+/* Дополнительные элементы */
+.extra-element-1 {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  animation: float-element 5s infinite;
+}
+
+@keyframes float-element {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.2); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+.extra-element-2 {
+  position: absolute;
+  bottom: 20%;
+  right: 30%;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float-element-2 7s infinite;
+}
+
+@keyframes float-element-2 {
+  0% { transform: translateX(0) scale(1); }
+  50% { transform: translateX(20px) scale(1.1); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+.extra-element-3 {
+  position: absolute;
+  top: 40%;
+  left: 70%;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  animation: float-element-3 6s infinite;
+}
+
+@keyframes float-element-3 {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(45deg) scale(1.2); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .reveal-text {
+      font-size: 2rem;
+  }
+
+  .btn {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+  }
+
+  .lantern-light {
+      width: 300px;
+      height: 300px;
+  }
+
+  .lantern-beam {
+      width: 600px;
+      height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reveal-text {
+      font-size: 1.5rem;
+  }
+
+  .btn {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+  }
+
+  .lantern-light {
+      width: 200px;
+      height: 200px;
+  }
+
+  .lantern-beam {
+      width: 400px;
+      height: 100px;
+  }
+}

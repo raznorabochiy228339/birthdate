@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>День рождения</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Фоновый эффект -->
+    <div class="background">
+        <div class="fog"></div>
+        <div class="lantern-light"></div>
+        <div class="lantern-beam"></div>
+        <div class="particle-effect"></div>
+        <div class="star-field"></div>
+    </div>
+
+    <!-- Главная страница -->
+    <section id="home" class="hero">
+        <div class="content">
+            <!-- Основной текст -->
+            <h1 class="reveal-text" data-text="Ты приглашён(а) на мой день рождения!">
+                <span>Ты</span> <span>приглашён(а)</span> <span>на</span> <span>мой</span> <span>день</span> <span>рождения!</span>
+            </h1>
+            <p class="reveal-text" data-text="Дата: 15 октября 2023 Время: 18:00 Место: Улица Радости, дом 12">
+                <span>Дата:</span> <span>25</span> <span>февраля</span> <span>2025</span><br>
+                <span>Время:</span> <span>15:00</span><br>
+                <span>Место:</span> <span>Торговый</span> <span>центр</span> <span>Шоколад</span> <span>Боулинг</span>
+            </p>
+            <p class="reveal-text" data-text="Я коплю на собственный сервер, поэтому буду рад любому пожертвованию.">
+                <span>Я</span> <span>коплю</span> <span>на</span> <span>собственный</span> <span>сервер,</span><br>
+                <span>поэтому</span> <span>буду</span> <span>рад</span>любому<span>подарку</span>любому<span>подарку</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Информация о месте -->
+<section id="location" class="section">
+    <div class="container">
+        <h2>Как добраться</h2>
+        <p>Место проведения находится по координатам: 55.763812, 37.844909</p>
+
+        <!-- Встроенная Яндекс.Карта -->
+        <div style="position:relative;overflow:hidden;">
+            <a href="https://yandex.ru/maps/org/shokolad/1746870647/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Шоколад</a>
+            <a href="https://yandex.ru/maps/21621/reutov/category/shopping_mall/184108083/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;">Торговый центр в Реутове</a>
+            <a href="https://yandex.ru/maps/21621/reutov/category/entertainment_center/184106372/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:28px;">Развлекательный центр в Реутове</a>
+            <iframe 
+                src="https://yandex.ru/map-widget/v1/org/shokolad/1746870647/?indoorLevel=1&ll=37.844909%2C55.763812&z=17" 
+                width="100%" 
+                height="400" 
+                frameborder="1" 
+                allowfullscreen="true" 
+                style="position:relative; border-radius: 10px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+    <!-- Контакты -->
+<section id="contact" class="section">
+    <div class="container">
+        <h2>Свяжитесь со мной</h2>
+        <p>Если у вас есть вопросы, позвоните или напишите мне:</p>
+        <div class="phone-number">
+            <a href="tel:+79123456789" class="btn">+7 (912) 345-67-89</a>
+        </div>
+    </div>
+</section>
+
+    <!-- Дополнительные элементы -->
+    <div class="extra-element-1"></div>
+    <div class="extra-element-2"></div>
+    <div class="extra-element-3"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
