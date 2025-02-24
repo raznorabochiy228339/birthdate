@@ -113,31 +113,32 @@ body {
   50% { transform: translate(-50%, -50%) rotate(60deg); }
   100% { transform: translate(-50%, -50%) rotate(45deg); }
 }
+
 /* Главная страница */
 .hero {
   position: relative;
-  background: url('background.jpg') no-repeat center center/cover;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+  background: url('background.jpg') no-repeat center center/cover; /* Фоновое изображение */
+  height: 100vh; /* Полный экран */
+  display: flex; /* Используем Flexbox для центрирования */
+  align-items: center; /* Центрируем по вертикали */
+  justify-content: center; /* Центрируем по горизонтали */
+  text-align: center; /* Выравниваем текст внутри контента */
+  color: #fff; /* Белый цвет текста */
 }
 
+/* Контейнер с текстом */
 .content {
-  z-index: 1;
-  text-align: center;
-  perspective: 1000px;
-  transform-style: preserve-3d;
+  z-index: 1; /* Текст поверх тумана */
+  perspective: 1000px; /* Создаём трёхмерную перспективу */
+  transform-style: preserve-3d; /* Сохраняем 3D-эффект */
 }
 
 /* Прозрачный текст */
 .reveal-text {
-  position: relative;
-  font-size: 3rem;
+  font-size: 2rem; /* Размер текста */
   color: transparent; /* Делаем основной текст полностью прозрачным */
   text-shadow: none; /* Убираем лишние тени */
-  transform: translateZ(-50px);
+  transform: translateZ(-50px); /* Отдаляем текст вглубь */
   animation: text-reveal 5s forwards;
 }
 
@@ -150,23 +151,45 @@ body {
   font-size: inherit;
   color: transparent; /* Текст остаётся прозрачным */
   text-shadow: 
-      0 0 3px rgba(255, 255, 255, 1), /* Очень чёткий свет */
-      0 0 6px rgba(255, 255, 255, 0.9), /* Блики */
-      0 0 10px rgba(255, 255, 255, 0.8), /* Среднее размытие */
-      0 0 15px rgba(255, 255, 255, 0.7), /* Рассеянный свет */
-      0 0 20px rgba(255, 255, 255, 0.6); /* Дальний свет */
+      0 0 2px rgba(255, 255, 255, 1), /* Очень чёткий контур */
+      0 0 4px rgba(255, 255, 255, 0.9), /* Блики вокруг букв */
+      0 0 6px rgba(255, 255, 255, 0.8), /* Среднее размытие */
+      0 0 8px rgba(255, 255, 255, 0.7), /* Рассеянное свечение */
+      0 0 10px rgba(255, 255, 255, 0.6); /* Дальний свет */
   z-index: 4;
   animation: shadow-reveal 5s forwards;
 }
 
+/* Анимация тени */
 @keyframes shadow-reveal {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
 
+/* Анимация текста */
 @keyframes text-reveal {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+/* Анимация для каждого слова */
+.reveal-text span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: word-reveal 3s ease-out forwards;
+}
+
+.reveal-text span:nth-child(odd) {
+  animation-delay: 0.5s;
+}
+
+.reveal-text span:nth-child(even) {
+  animation-delay: 1s;
+}
+
+@keyframes word-reveal {
+  0% { opacity: 0; transform: translateY(50px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 /* Анимация для каждого слова */
 .reveal-text span {
