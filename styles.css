@@ -114,104 +114,76 @@ body {
   100% { transform: translate(-50%, -50%) rotate(45deg); }
 }
 
-/* Главная страница */
+/* Общие настройки */
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #fff;
+  background-color: #000; /* Чёрный фон для тёмной комнаты */
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Главная страница (трёхмерная сцена) */
 .hero {
   position: relative;
-  background: url('background.jpg') no-repeat center center/cover; /* Фоновое изображение */
   height: 100vh; /* Полный экран */
-  display: flex; /* Используем Flexbox для центрирования */
-  align-items: center; /* Центрируем по вертикали */
-  justify-content: center; /* Центрируем по горизонтали */
-  text-align: center; /* Выравниваем текст внутри контента */
-  color: #fff; /* Белый цвет текста */
-}
-
-/* Контейнер с текстом */
-.content {
-  z-index: 1; /* Текст поверх тумана */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   perspective: 1000px; /* Создаём трёхмерную перспективу */
-  transform-style: preserve-3d; /* Сохраняем 3D-эффект */
+  overflow: hidden;
 }
 
-/* Прозрачный текст */
+/* Контейнер с текстом (в трёхмерном пространстве) */
+.content {
+  position: relative;
+  transform-style: preserve-3d; /* Сохраняем 3D-эффект */
+  transform: rotateY(-20deg) translateZ(-50px); /* Наклоняем текст и отдаляем его */
+  animation: room-lighting 10s infinite; /* Добавляем динамику */
+}
+
+/* Белый текст */
 .reveal-text {
   font-size: 2rem; /* Размер текста */
-  color: transparent; /* Делаем основной текст полностью прозрачным */
+  color: #fff; /* Белый цвет текста */
   text-shadow: none; /* Убираем лишние тени */
-  transform: translateZ(-50px); /* Отдаляем текст вглубь */
   animation: text-reveal 5s forwards;
 }
 
-/* Тень текста (чёткая и яркая) */
-.reveal-text::before {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: inherit;
-  color: transparent; /* Текст остаётся прозрачным */
-  text-shadow: 
-      0 0 2px rgba(255, 255, 255, 1), /* Очень чёткий контур */
-      0 0 4px rgba(255, 255, 255, 0.9), /* Блики вокруг букв */
-      0 0 6px rgba(255, 255, 255, 0.8), /* Среднее размытие */
-      0 0 8px rgba(255, 255, 255, 0.7), /* Рассеянное свечение */
-      0 0 10px rgba(255, 255, 255, 0.6); /* Дальний свет */
-  z-index: 4;
-  animation: shadow-reveal 5s forwards;
-}
-
-/* Анимация тени */
-@keyframes shadow-reveal {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* Анимация текста */
+/* Анимация появления текста */
 @keyframes text-reveal {
   0% { opacity: 0; }
   100% { opacity: 1; }
 }
-/* Анимация для каждого слова */
-.reveal-text span {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: word-reveal 3s ease-out forwards;
+
+/* Анимация движения света */
+@keyframes room-lighting {
+  0% { transform: rotateY(-20deg) translateZ(-50px) scale(1); }
+  50% { transform: rotateY(-25deg) translateZ(-50px) scale(1.05); } /* Небольшой маячащий эффект */
+  100% { transform: rotateY(-20deg) translateZ(-50px) scale(1); }
 }
 
-.reveal-text span:nth-child(odd) {
-  animation-delay: 0.5s;
+/* Свет фонаря (справа от текста) */
+.lantern-light {
+  position: absolute;
+  top: 50%;
+  right: -20%; /* Размещаем фонарь справа */
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  filter: blur(50px); /* Размытие для мягкого света */
+  z-index: 2;
+  animation: flicker 2s infinite;
 }
 
-.reveal-text span:nth-child(even) {
-  animation-delay: 1s;
+/* Анимация мерцания света */
+@keyframes flicker {
+  0% { opacity: 0.8; }
+  50% { opacity: 0.6; }
+  100% { opacity: 0.8; }
 }
-
-@keyframes word-reveal {
-  0% { opacity: 0; transform: translateY(50px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-/* Анимация для каждого слова */
-.reveal-text span {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: word-reveal 3s ease-out forwards;
-}
-
-.reveal-text span:nth-child(odd) {
-  animation-delay: 0.5s;
-}
-
-.reveal-text span:nth-child(even) {
-  animation-delay: 1s;
-}
-
-@keyframes word-reveal {
-  0% { opacity: 0; transform: translateY(50px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
 /* Эффект частиц */
 .particle-effect {
   position: absolute;
