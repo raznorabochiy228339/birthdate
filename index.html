@@ -3,73 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>День рождения</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Газовый калькулятор</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <!-- Фоновый эффект -->
-    <div class="background">
-        <div class="fog"></div>
-        <div class="lantern-light"></div>
-        <div class="lantern-beam"></div>
-        <div class="particle-effect"></div>
-        <div class="star-field"></div>
-    </div>
-
-    <!-- Главная страница -->
-<section id="home" class="hero">
-    <div class="content">
-        <!-- Основной текст -->
-        <h1 class="reveal-text">Ты приглашён(а) на мой день рождения!</h1>
-        <p class="reveal-text">Дата: 25.02 Время: 15:30</p>
-        <p class="reveal-text">Если не знаешь что мне подарить,</p>
-        <p class="reveal-text">можешь не заморачиваться</p>
-    </div>
-    <!-- Свет фонаря -->
-    <div class="lantern-light"></div>
-</section>
-
-    <!-- Информация о месте -->
-<section id="location" class="section">
     <div class="container">
-        <h2>Как добраться</h2>
-        <p>Место проведения находится по координатам: 55.763812, 37.844909</p>
+        <h2>Газовый калькулятор</h2>
+        <label for="volume">Объем потребленного газа (м³):</label>
+        <input type="number" id="volume" placeholder="Введите объем">
 
-        <!-- Встроенная Яндекс.Карта -->
-        <div style="position:relative;overflow:hidden;">
-            <a href="https://yandex.ru/maps/org/shokolad/1746870647/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Шоколад</a>
-            <a href="https://yandex.ru/maps/21621/reutov/category/shopping_mall/184108083/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;">Торговый центр в Реутове</a>
-            <a href="https://yandex.ru/maps/21621/reutov/category/entertainment_center/184106372/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:28px;">Развлекательный центр в Реутове</a>
-            <iframe 
-                src="https://yandex.ru/map-widget/v1/org/shokolad/1746870647/?indoorLevel=1&ll=37.844909%2C55.763812&z=17" 
-                width="100%" 
-                height="400" 
-                frameborder="1" 
-                allowfullscreen="true" 
-                style="position:relative; border-radius: 10px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);">
-            </iframe>
-        </div>
+        <label for="tariff">Тариф за 1 м³ газа (руб.):</label>
+        <input type="number" id="tariff" placeholder="Введите тариф">
+
+        <button onclick="calculateCost()">Рассчитать стоимость</button>
+
+        <div class="result" id="result"></div>
     </div>
-</section>
 
-    <!-- Контакты -->
-<section id="contact" class="section">
-    <div class="container">
-        <h2>Свяжитесь со мной</h2>
-        <p>Если у вас есть вопросы, позвоните или напишите мне:</p>
-        <div class="phone-number">
-            <a href="tel:+79123456789" class="btn">+7 905 576 77-67</a>
-        </div>
-    </div>
-</section>
+    <script>
+        // Функция для расчета стоимости газа
+        function calculateCost() {
+            // Получаем значения из полей ввода
+            const volume = parseFloat(document.getElementById('volume').value);
+            const tariff = parseFloat(document.getElementById('tariff').value);
 
-    <p class="signature">p.s. этот сайт написал я - Медведев Роман, вручную, не используя конструкторы и т. д., на языках HTML, CSS, JavaScript</p>
+            // Проверяем корректность ввода
+            if (isNaN(volume) || isNaN(tariff) || volume <= 0 || tariff <= 0) {
+                document.getElementById('result').innerHTML = 
+                    '<span style="color: red;">Ошибка: Введите корректные значения.</span>';
+                return;
+            }
 
-    <!-- Дополнительные элементы -->
-    <div class="extra-element-1"></div>
-    <div class="extra-element-2"></div>
-    <div class="extra-element-3"></div>
+            // Расчет стоимости без НДС
+            const costWithoutVAT = volume * tariff;
 
-    <script src="script.js"></script>
+            // Учет НДС (например, 20%)
+            const vatRate = 0.2; // 20%
+            const vatAmount = costWithoutVAT * vatRate;
+            const totalCost = costWithoutVAT + vatAmount;
+
+            // Отображение результата
+            document.getElementById('result').innerHTML = `
+                <p>Стоимость без НДС: ${costWithoutVAT.toFixed(2)} руб.</p>
+                <p>НДС (20%): ${vatAmount.toFixed(2)} руб.</p>
+                <p><strong>Итоговая стоимость: ${totalCost.toFixed(2)} руб.</strong></p>
+            `;
+        }
+    </script>
 </body>
 </html>
