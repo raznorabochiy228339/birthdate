@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -61,11 +62,11 @@
 
         <label for="gasType">Выберите газ:</label>
         <select id="gasType">
-            <option value="1">Воздух (z = 1)</option>
-            <option value="1.003">Кислород (z = 1.003)</option>
-            <option value="0.995">Углекислый газ (z = 0.995)</option>
-            <option value="0.98">Метан (z = 0.98)</option>
-            <option value="1">Азот (z = 1)</option>
+            <option value="0.02897">Воздух</option>
+            <option value="0.032">Кислород</option>
+            <option value="0.044">Углекислый газ</option>
+            <option value="0.016">Метан</option>
+            <option value="0.028">Азот</option>
         </select>
 
         <label for="pressure">Давление:</label>
@@ -83,10 +84,17 @@
     </div>
 
     <script>
+        // Универсальная газовая постоянная (Дж/(моль·К))
+        const R = 8.314;
+
+        // Давление и температура при нормальных условиях
+        const P0 = 101325; // Па
+        const T0 = 273.15; // К
+
         // Функция для расчета объема газа
         function calculateVolume() {
             // Получаем значения из полей ввода
-            const z = parseFloat(document.getElementById('gasType').value); // Коэффициент сжимаемости
+            const gasType = parseFloat(document.getElementById('gasType').value); // Молярная масса
             const pressureAtm = parseFloat(document.getElementById('pressure').value); // Давление (атм)
             const temperatureC = parseFloat(document.getElementById('temperature').value); // Температура (°C)
             const cylinderVolumeLiters = parseFloat(document.getElementById('cylinderVolume').value); // Объем баллона (литры)
@@ -99,16 +107,18 @@
                 return;
             }
 
-            // Рассчитываем коэффициент K
-            const K = ((0.968 * pressureAtm + 1) * (293 / (273 + temperatureC)) * 0.001) / z;
+            // Преобразуем давление из атмосфер в Паскали
+            const pressurePa = pressureAtm * 101325;
 
-            // Рассчитываем объем газа в баллоне
-            const gasVolumeLiters = K * cylinderVolumeLiters;
+            // Преобразуем температуру в Кельвины
+            const temperatureK = temperatureC + 273.15;
+
+            // Рассчитываем объем газа при нормальных условиях
+            const gasVolumeM3 = cylinderVolumeLiters * 0.001 * (P0 * temperatureK) / (pressurePa * T0);
 
             // Отображаем результат
             document.getElementById('result').innerHTML = `
-                <p>Коэффициент K: ${K.toFixed(4)}</p>
-                <p>Объем газа в баллоне: ${gasVolumeLiters.toFixed(4)} л</p>
+                <p>Объем газа при нормальных условиях: ${gasVolumeM3.toFixed(4)} м³</p>
             `;
         }
     </script>
