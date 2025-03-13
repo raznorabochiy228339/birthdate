@@ -62,7 +62,6 @@
         <label for="gasType">Выберите газ:</label>
         <select id="gasType">
             <option value="0.02897">Воздух</option>
-            <option value="0.002">Водород</option>
             <option value="0.032">Кислород</option>
             <option value="0.044">Углекислый газ</option>
             <option value="0.016">Метан</option>
@@ -74,9 +73,6 @@
 
         <label for="temperature">Температура:</label>
         <input type="number" id="temperature" placeholder="Введите температуру"> °C
-
-        <label for="cylinderVolume">Объем баллона:</label>
-        <input type="number" id="cylinderVolume" placeholder="Введите объем баллона"> литры
 
         <button onclick="calculateVolume()">Рассчитать объем</button>
 
@@ -93,11 +89,9 @@
             const gasType = parseFloat(document.getElementById('gasType').value); // Молярная масса
             const pressureAtm = parseFloat(document.getElementById('pressure').value); // Давление (атм)
             const temperatureC = parseFloat(document.getElementById('temperature').value); // Температура (°C)
-            const cylinderVolumeLiters = parseFloat(document.getElementById('cylinderVolume').value); // Объем баллона (литры)
 
             // Проверяем корректность ввода
-            if (isNaN(pressureAtm) || isNaN(temperatureC) || isNaN(cylinderVolumeLiters) || 
-                pressureAtm <= 0 || cylinderVolumeLiters <= 0) {
+            if (isNaN(pressureAtm) || isNaN(temperatureC) || pressureAtm <= 0) {
                 document.getElementById('result').innerHTML = 
                     '<span class="error">Ошибка: Введите корректные значения.</span>';
                 return;
@@ -109,19 +103,12 @@
             // Преобразуем температуру в Кельвины
             const temperatureK = temperatureC + 273.15;
 
-            // Предполагаем, что масса газа равна молярной массе (1 моль)
-            const n = 1 / gasType;
-
             // Рассчитываем объем газа
-            const volume = (n * R * temperatureK) / pressurePa;
-
-            // Преобразуем объем баллона из литров в кубические метры
-            const cylinderVolumeM3 = cylinderVolumeLiters * 0.001;
+            const volume = (R * temperatureK) / (pressurePa * gasType);
 
             // Отображаем результат
             document.getElementById('result').innerHTML = `
                 <p>Объем газа: ${volume.toFixed(4)} м³</p>
-                <p>Объем баллона: ${cylinderVolumeM3.toFixed(4)} м³ (${cylinderVolumeLiters} л)</p>
             `;
         }
     </script>
