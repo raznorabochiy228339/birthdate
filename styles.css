@@ -1,0 +1,38 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  width: 30%;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.form-group input, .form-group select {
+  width: 50%;
+  padding: 5px;
+}
+
+.result-box {
+  background-color: #f0f8ff;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px
+}
