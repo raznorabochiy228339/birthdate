@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Газовый калькулятор</title>
+    <title>Калькулятор объема газа в баллоне</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
         .container {
-            max-width: 400px;
+            max-width: 500px;
             margin: auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -22,7 +22,7 @@
             margin-bottom: 8px;
             font-weight: bold;
         }
-        input {
+        input, select {
             width: 100%;
             padding: 8px;
             margin-bottom: 16px;
@@ -50,45 +50,62 @@
 </head>
 <body>
     <div class="container">
-        <h2>Газовый калькулятор</h2>
-        <label for="volume">Объем потребленного газа (м³):</label>
-        <input type="number" id="volume" placeholder="Введите объем">
+        <h2>Калькулятор объема газа в баллоне</h2>
 
-        <label for="tariff">Тариф за 1 м³ газа (руб.):</label>
-        <input type="number" id="tariff" placeholder="Введите тариф">
+        <label for="gasType">Выберите газ:</label>
+        <select id="gasType">
+            <option value="0.02897">Воздух</option>
+            <option value="0.002">Водород</option>
+            <option value="0.032">Кислород</option>
+            <option value="0.044">Углекислый газ</option>
+            <option value="0.016">Метан</option>
+        </select>
 
-        <button onclick="calculateCost()">Рассчитать стоимость</button>
+        <label for="mass">Масса газа (кг):</label>
+        <input type="number" id="mass" placeholder="Введите массу">
+
+        <label for="pressure">Давление газа (Па):</label>
+        <input type="number" id="pressure" placeholder="Введите давление">
+
+        <label for="temperature">Температура газа (°C):</label>
+        <input type="number" id="temperature" placeholder="Введите температуру">
+
+        <button onclick="calculateVolume()">Рассчитать объем</button>
 
         <div class="result" id="result"></div>
     </div>
 
     <script>
-        // Функция для расчета стоимости газа
-        function calculateCost() {
+        // Универсальная газовая постоянная (Дж/(моль·К))
+        const R = 8.314;
+
+        // Функция для расчета объема газа
+        function calculateVolume() {
             // Получаем значения из полей ввода
-            const volume = parseFloat(document.getElementById('volume').value);
-            const tariff = parseFloat(document.getElementById('tariff').value);
+            const gasType = parseFloat(document.getElementById('gasType').value); // Молярная масса
+            const mass = parseFloat(document.getElementById('mass').value); // Масса газа (кг)
+            const pressure = parseFloat(document.getElementById('pressure').value); // Давление (Па)
+            const temperatureC = parseFloat(document.getElementById('temperature').value); // Температура (°C)
 
             // Проверяем корректность ввода
-            if (isNaN(volume) || isNaN(tariff) || volume <= 0 || tariff <= 0) {
+            if (isNaN(mass) || isNaN(pressure) || isNaN(temperatureC) || mass <= 0 || pressure <= 0) {
                 document.getElementById('result').innerHTML = 
                     '<span style="color: red;">Ошибка: Введите корректные значения.</span>';
                 return;
             }
 
-            // Расчет стоимости без НДС
-            const costWithoutVAT = volume * tariff;
+            // Преобразуем температуру в Кельвины
+            const temperatureK = temperatureC + 273.15;
 
-            // Учет НДС (например, 20%)
-            const vatRate = 0.2; // 20%
-            const vatAmount = costWithoutVAT * vatRate;
-            const totalCost = costWithoutVAT + vatAmount;
+            // Рассчитываем количество вещества (моль)
+            const n = mass / gasType;
 
-            // Отображение результата
+            // Рассчитываем объем газа
+            const volume = (n * R * temperatureK) / pressure;
+
+            // Отображаем результат
             document.getElementById('result').innerHTML = `
-                <p>Стоимость без НДС: ${costWithoutVAT.toFixed(2)} руб.</p>
-                <p>НДС (20%): ${vatAmount.toFixed(2)} руб.</p>
-                <p><strong>Итоговая стоимость: ${totalCost.toFixed(2)} руб.</strong></p>
+                <p>Объем газа: ${volume.toFixed(4)} м³</p>
             `;
         }
     </script>
