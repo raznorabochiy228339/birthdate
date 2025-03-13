@@ -53,9 +53,6 @@
         .error {
             color: red;
         }
-        .success {
-            color: green;
-        }
     </style>
 </head>
 <body>
@@ -112,8 +109,8 @@
             // Преобразуем температуру в Кельвины
             const temperatureK = temperatureC + 273.15;
 
-            // Рассчитываем количество вещества (моль)
-            const n = 1 / gasType; // Предполагаем, что масса газа равна молярной массе (1 моль)
+            // Предполагаем, что масса газа равна молярной массе (1 моль)
+            const n = 1 / gasType;
 
             // Рассчитываем объем газа
             const volume = (n * R * temperatureK) / pressurePa;
@@ -121,19 +118,10 @@
             // Преобразуем объем баллона из литров в кубические метры
             const cylinderVolumeM3 = cylinderVolumeLiters * 0.001;
 
-            // Проверяем, помещается ли газ в баллон
-            let fitMessage;
-            if (volume <= cylinderVolumeM3) {
-                fitMessage = '<span class="success">Газ помещается в баллон.</span>';
-            } else {
-                fitMessage = '<span class="error">Газ не помещается в баллон.</span>';
-            }
-
             // Отображаем результат
             document.getElementById('result').innerHTML = `
                 <p>Объем газа: ${volume.toFixed(4)} м³</p>
                 <p>Объем баллона: ${cylinderVolumeM3.toFixed(4)} м³ (${cylinderVolumeLiters} л)</p>
-                ${fitMessage}
             `;
         }
     </script>
