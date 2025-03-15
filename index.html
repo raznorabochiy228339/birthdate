@@ -1,41 +1,329 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>Калькулятор давления газа в баллоне</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькуляторы газа</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      background-color: #fff;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .tab.active {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .calculator h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .calculator div {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f0f8ff;
+      border: 1px solid #b3d9ff;
+      border-radius: 4px;
+    }
+
+    .result div {
+      margin-bottom: 10px;
+    }
+
+    .result span {
+      font-weight: bold;
+      color: #333;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <form id="gasCalculatorForm">
-            <div class="form-group">
-                <label for="gasType">Выберите газ:</label>
-                <select id="gasType" name="gasType">
-                    <option value="nitrogen">Азот</option>
-                    <option value="argon">Аргон</option>
-                    <option value="oxygen">Кислород</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="temperature">Температура:</label>
-                <input type="number" id="temperature" name="temperature" placeholder="°C">
-            </div>
-            <button type="button" onclick="calculatePressure()">Рассчитать</button>
-        </form>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('calculator1')">Газовый калькулятор вариант 1</div>
+    <div class="tab" onclick="switchTab('calculator2')">Газовый калькулятор вариант 2</div>
+  </div>
 
-        <div class="result-box" id="resultBox" style="display:none;">
-            <h3>Рассчитанные показатели:</h3>
-            <div class="result-item">
-                <span>Давление при 150 МПа:</span>
-                <span id="pressure150Result"></span>
-            </div>
-            <div class="result-item">
-                <span>Давление при 200 МПа:</span>
-                <span id="pressure200Result"></span>
-            </div>
+  <!-- Калькулятор 1 -->
+  <div id="calculator1" class="tab-content active">
+    <div class="calculator">
+      <h1>Газовый калькулятор</h1>
+
+      <div>
+        <label for="gas-select1">Выберите газ:</label>
+        <select id="gas-select1"></select>
+      </div>
+
+      <div>
+        <label for="pressure-input">Давление (атм):</label>
+        <input type="number" id="pressure-input" value="1" min="1" />
+      </div>
+
+      <div>
+        <label for="temp-input">Температура (°C):</label>
+        <input type="number" id="temp-input" value="-30" min="-30" max="30" />
+      </div>
+
+      <div>
+        <label for="balloon-input">Объем баллона (литры):</label>
+        <input type="number" id="balloon-input" value="1000" min="0" />
+      </div>
+
+      <div>
+        <label for="unit-select">Выберите единицу измерения:</label>
+        <select id="unit-select">
+          <option value="m3">М³ (газ)</option>
+          <option value="liters">Литры (газ)</option>
+          <option value="kg">Кг (масса)</option>
+          <option value="tons">Тонны (масса)</option>
+        </select>
+      </div>
+
+      <button onclick="calculate1()">Рассчитать</button>
+
+      <div class="result">
+        <div>
+          <span>Объем газа:</span>
+          <strong id="volume1">0 м³</strong>
         </div>
+        <div>
+          <span>Коэффициент К:</span>
+          <strong id="koefK1">0</strong>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="script.js"></script>
+  <!-- Калькулятор 2 -->
+  <div id="calculator2" class="tab-content">
+    <div class="calculator">
+      <h1>Газовый калькулятор</h1>
+
+      <div>
+        <label for="balloon-select">Выберите объем баллона:</label>
+        <select id="balloon-select">
+          <option value="2">2 литра</option>
+          <option value="5">5 литров</option>
+          <option value="10">10 литров</option>
+          <option value="20">20 литров</option>
+          <option value="25">25 литров</option>
+          <option value="27">27 литров</option>
+          <option value="40">40 литров</option>
+          <option value="50">50 литров</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="gas-select2">Выберите тип газа:</label>
+        <select id="gas-select2">
+          <option value="argon">Аргон</option>
+          <option value="hydrogen">Водород</option>
+          <option value="nitrogen">Азот</option>
+          <option value="helium">Гелий</option>
+        </select>
+      </div>
+
+      <button onclick="calculate2()">Рассчитать</button>
+
+      <div class="result">
+        <div>
+          <span>Объем газа при 150 атм:</span>
+          <strong id="volume-150">0 м³</strong>
+        </div>
+        <div>
+          <span>Объем газа при 200 атм:</span>
+          <strong id="volume-200">0 м³</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Инициализация выпадающего списка газов для первого калькулятора
+    const gases = [
+      { id: 1, title: 'Кислород', compressibility: 0.968 },
+      { id: 2, title: 'Азот', compressibility: 0.987 },
+      { id: 3, title: 'Аргон', compressibility: 0.965 },
+      { id: 4, title: 'Гелий', compressibility: 1.013 },
+      { id: 5, title: 'Углекислый газ', compressibility: 0.240 },
+      { id: 6, title: 'Метан', compressibility: 0.998 },
+      { id: 7, title: 'Ксенон', compressibility: 0.955 },
+      { id: 8, title: 'Криптон', compressibility: 0.960 },
+      { id: 9, title: 'Неон', compressibility: 1.005 },
+      { id: 10, title: 'Водород', compressibility: 1.007 },
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const gasSelect = document.getElementById('gas-select1');
+      gases.forEach(({ id, title }) => {
+        const option = document.createElement('option');
+        option.value = id;
+        option.textContent = title;
+        gasSelect.appendChild(option);
+      });
+    });
+
+    // Функция расчета для первого калькулятора
+    function calculate1() {
+      const gasId = Number(document.getElementById('gas-select1').value);
+      const pressure = Number(document.getElementById('pressure-input').value);
+      const temp = Number(document.getElementById('temp-input').value);
+      const balloon = Number(document.getElementById('balloon-input').value);
+      const unit = document.getElementById('unit-select').value;
+
+      const selectedGas = gases.find((gas) => gas.id === gasId);
+
+      if (!selectedGas) {
+        alert('Выберите корректный газ!');
+        return;
+      }
+
+      const koefK = ((0.968 * pressure + 1) * (293 / (273 + temp)) * 0.001) / selectedGas.compressibility;
+      let volume = koefK * balloon;
+
+      switch (unit) {
+        case 'liters':
+          volume *= 1000;
+          break;
+        case 'kg':
+          volume *= 1.293;
+          break;
+        case 'tons':
+          volume *= 1.293 / 1000;
+          break;
+        default:
+          break;
+      }
+
+      document.getElementById('volume1').textContent = `${volume.toFixed(2)} ${getUnitLabel(unit)}`;
+      document.getElementById('koefK1').textContent = koefK.toFixed(4);
+    }
+
+    function getUnitLabel(unit) {
+      switch (unit) {
+        case 'm3':
+          return 'м³';
+        case 'liters':
+          return 'литров';
+        case 'kg':
+          return 'кг';
+        case 'tons':
+          return 'тонн';
+        default:
+          return '';
+      }
+    }
+
+    // Таблица данных для второго калькулятора
+    const gasData = [
+      { balloonVolume: 2, argon: { volume150: 0.31, volume200: 0.41 }, hydrogen: { volume150: 0.29, volume200: 0.39 }, nitrogen: { volume150: 0.28, volume200: 0.36 }, helium: { volume150: 0.27, volume200: 0.35 } },
+      { balloonVolume: 5, argon: { volume150: 0.77, volume200: 1.03 }, hydrogen: { volume150: 0.73, volume200: 0.97 }, nitrogen: { volume150: 0.71, volume200: 0.92 }, helium: { volume150: 0.68, volume200: 0.88 } },
+      { balloonVolume: 10, argon: { volume150: 1.55, volume200: 2.06 }, hydrogen: { volume150: 1.45, volume200: 1.93 }, nitrogen: { volume150: 1.42, volume200: 1.84 }, helium: { volume150: 1.36, volume200: 1.77 } },
+      { balloonVolume: 20, argon: { volume150: 3.1, volume200: 4.12 }, hydrogen: { volume150: 2.90, volume200: 3.86 }, nitrogen: { volume150: 2.85, volume200: 3.69 }, helium: { volume150: 2.73, volume200: 3.55} },
+      { balloonVolume: 25, argon: { volume150: 3.87, volume200: 5.15 }, hydrogen: { volume150: 3.63, volume200: 4.83 }, nitrogen: { volume150: 3.57, volume200: 4.62 }, helium: { volume150: 3.41, volume200: 4.44 } },
+      { balloonVolume: 27, argon: { volume150: 4.18, volume200: 5.56 }, hydrogen: { volume150: 3.92, volume200: 5.22 }, nitrogen: { volume150: 3.85, volume200: 4.98 }, helium: { volume150: 3.68, volume200: 4.80 } },
+      { balloonVolume: 40, argon: { volume150: 6.20, volume200: 8.24 }, hydrogen: { volume150: 5.81, volume200: 7.73 }, nitrogen: { volume150: 5.71, volume200: 7.39 }, helium: { volume150: 5.46, volume200: 7.11 } },
+      { balloonVolume: 50, argon: { volume150: 7.75, volume200: 10.30 }, hydrogen: { volume150: 7.26, volume200: 9.66 }, nitrogen: { volume150: 7.14, volume200: 9.24 }, helium: { volume150: 6.83, volume200: 8.89 } },
+    ];
+
+    // Функция расчета для второго калькулятора
+    function calculate2() {
+      const balloonVolume = Number(document.getElementById('balloon-select').value);
+      const gasType = document.getElementById('gas-select2').value;
+
+      const selectedRow = gasData.find(row => row.balloonVolume === balloonVolume);
+
+      if (!selectedRow) {
+        alert('Выберите корректный объем баллона!');
+        return;
+      }
+
+      const volume150 = selectedRow[gasType].volume150;
+      const volume200 = selectedRow[gasType].volume200;
+
+      document.getElementById('volume-150').textContent = `${volume150.toFixed(2)} м³`;
+      document.getElementById('volume-200').textContent = `${volume200.toFixed(2)} м³`;
+    }
+
+    // Функция переключения вкладок
+    function switchTab(tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      contents.forEach(content => content.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      document.querySelector(`[onclick="switchTab('${tabId}')"]`).classList.add('active');
+    }
+  </script>
 </body>
 </html>
