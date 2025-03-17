@@ -284,15 +284,63 @@
 
     // Таблица данных для второго калькулятора
     const gasData = [
-      { balloonVolume: 2, argon: { volume150: 0.31, volume200: 0.41 }, hydrogen: { volume150: 0.29, volume200: 0.39 }, nitrogen: { volume150: 0.28, volume200: 0.36 }, helium: { volume150: 0.27, volume200: 0.35 } },
-      { balloonVolume: 5, argon: { volume150: 0.77, volume200: 1.03 }, hydrogen: { volume150: 0.73, volume200: 0.97 }, nitrogen: { volume150: 0.71, volume200: 0.92 }, helium: { volume150: 0.68, volume200: 0.88 } },
-      { balloonVolume: 10, argon: { volume150: 1.55, volume200: 2.06 }, hydrogen: { volume150: 1.45, volume200: 1.93 }, nitrogen: { volume150: 1.42, volume200: 1.84 }, helium: { volume150: 1.36, volume200: 1.77 } },
-      { balloonVolume: 20, argon: { volume150: 3.1, volume200: 4.12 }, hydrogen: { volume150: 2.90, volume200: 3.86 }, nitrogen: { volume150: 2.85, volume200: 3.69 }, helium: { volume150: 2.73, volume200: 3.55} },
-      { balloonVolume: 25, argon: { volume150: 3.87, volume200: 5.15 }, hydrogen: { volume150: 3.63, volume200: 4.83 }, nitrogen: { volume150: 3.57, volume200: 4.62 }, helium: { volume150: 3.41, volume200: 4.44 } },
-      { balloonVolume: 27, argon: { volume150: 4.18, volume200: 5.56 }, hydrogen: { volume150: 3.92, volume200: 5.22 }, nitrogen: { volume150: 3.85, volume200: 4.98 }, helium: { volume150: 3.68, volume200: 4.80 } },
-      { balloonVolume: 40, argon: { volume150: 6.20, volume200: 8.24 }, hydrogen: { volume150: 5.81, volume200: 7.73 }, nitrogen: { volume150: 5.71, volume200: 7.39 }, helium: { volume150: 5.46, volume200: 7.11 } },
-      { balloonVolume: 50, argon: { volume150: 7.75, volume200: 10.30 }, hydrogen: { volume150: 7.26, volume200: 9.66 }, nitrogen: { volume150: 7.14, volume200: 9.24 }, helium: { volume150: 6.83, volume200: 8.89 } },
-    ];
+  {
+    balloonVolume: 2,
+    argon: { volume150: 0.31, volume200: 0.41 },
+    hydrogen: { volume150: 0.29, volume200: 0.39 },
+    nitrogen: { volume150: 0.28, volume200: 0.36 },
+    helium: { volume150: 0.27, volume200: 0.35 }
+  },
+  {
+    balloonVolume: 5,
+    argon: { volume150: 0.77, volume200: 1.03 },
+    hydrogen: { volume150: 0.73, volume200: 0.97 },
+    nitrogen: { volume150: 0.71, volume200: 0.92 },
+    helium: { volume150: 0.68, volume200: 0.88 }
+  },
+  {
+    balloonVolume: 10,
+    argon: { volume150: 1.55, volume200: 2.06 },
+    hydrogen: { volume150: 1.45, volume200: 1.93 },
+    nitrogen: { volume150: 1.42, volume200: 1.84 },
+    helium: { volume150: 1.36, volume200: 1.77 }
+  },
+  {
+    balloonVolume: 20,
+    argon: { volume150: 3.1, volume200: 4.12 },
+    hydrogen: { volume150: 2.9, volume200: 3.86 },
+    nitrogen: { volume150: 2.85, volume200: 3.69 },
+    helium: { volume150: 2.73, volume200: 3.55 }
+  },
+  {
+    balloonVolume: 25,
+    argon: { volume150: 3.87, volume200: 5.15 },
+    hydrogen: { volume150: 3.63, volume200: 4.83 },
+    nitrogen: { volume150: 3.57, volume200: 4.62 },
+    helium: { volume150: 3.41, volume200: 4.44 }
+  },
+  {
+    balloonVolume: 27,
+    argon: { volume150: 4.18, volume200: 5.56 },
+    hydrogen: { volume150: 3.92, volume200: 5.22 },
+    nitrogen: { volume150: 3.85, volume200: 4.98 },
+    helium: { volume150: 3.68, volume200: 4.8 }
+  },
+  {
+    balloonVolume: 40,
+    argon: { volume150: 6.2, volume200: 8.24 },
+    hydrogen: { volume150: 5.81, volume200: 7.73 },
+    nitrogen: { volume150: 5.71, volume200: 7.39 },
+    helium: { volume150: 5.46, volume200: 7.11 }
+  },
+  {
+    balloonVolume: 50,
+    argon: { volume150: 7.75, volume200: 10.3 },
+    hydrogen: { volume150: 7.26, volume200: 9.66 },
+    nitrogen: { volume150: 7.14, volume200: 9.24 },
+    helium: { volume150: 6.83, volume200: 8.89 }
+  }
+];
 
     // Функция расчета для второго калькулятора
     function calculate2() {
